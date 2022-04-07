@@ -32,7 +32,7 @@ export default function PokemonItem({pokemon}:CardProps){
                         </div>
                     </div>
                     <div>
-                        {`Type: ${pokemon.types.length > 0 ? firstLetterToUpperCase(pokemon.types[0].type.name) : 'No Type!'}`}
+                        {`Type: ${firstLetterToUpperCase(pokemon.types.type.name)}`}
                     </div>
                 </div>
                 <div className="pokeName"> 

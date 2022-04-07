@@ -12,9 +12,20 @@ export interface SingleType{
     type: TypeData
 }
 
-
+export interface ButtonSortEvent{
+    sortBy: string,
+    isASC: boolean
+}
 
 export interface Pokemon{
+  name: string,
+  types: SingleType,
+  height: number,
+  weight: number,
+  sprites: Sprites,
+}
+
+export interface PokemonBuff{
   name: string,
   types: Array<SingleType>,
   height: number,
