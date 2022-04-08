@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
-import { Pokemon, PokemonProp, Config, ButtonSortEvent, PokemonBuff, SingleType } from './interfaces';
+import { Pokemon, PokemonProp, Config, ButtonSortEvent, PokemonBuff } from './interfaces';
 import { MdNightlight } from 'react-icons/md';
 import PokemonList from './PokemonList';
-import {FaSun} from 'react-icons/fa'
+import {FaSun} from 'react-icons/fa';
+import { TailSpin } from "react-loader-spinner";
 
 function App() {
 
   const [state, setState] = useState<Config>({offset: 0, limit: 20});
   const [isDarkMode, setDarkMode] = useState<boolean>(false);
   const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+    
+  
 
   function setLoading(loading: boolean){
+    setIsLoading(loading);
     const doc = document.getElementById('wrap');
     if(doc!=null && loading){
       doc.className="wrapper loading";
     }else if(doc!=null){
       doc.className="wrapper";
     }
-    
   }
 
   function getMore():void{
@@ -43,21 +47,39 @@ function App() {
     if(data.sortBy === 'type'){
       if(data.isASC){
         sortedPokemons = pokemons.sort((a,b):number=>{
-          if(a.types.type.name > b.types.type.name){
+          for(let i=0; i < a.types.length && i < b.types.length; ++i){
+            if(a.types[i] > b.types[i]){
+              return 1;
+            }else if(a.types[i] < b.types[i]){
+              return -1;
+            }
+          }
+
+          if(a.types.length > b.types.length){
             return 1;
-          }else if(a.types.type.name < b.types.type.name){
+          }else if(a.types.length < b.types.length){
             return -1;
           }
+
           return 0;
         })
       }else{
         sortedPokemons = pokemons.sort((a,b):number=>{
 
-          if(a.types.type.name > b.types.type.name){
+          for(let i=0; i < a.types.length && i < b.types.length; ++i){
+            if(a.types[i] > b.types[i]){
+              return -1;
+            }else if(a.types[i] < b.types[i]){
+              return 1;
+            }
+          }
+
+          if(a.types.length > b.types.length){
             return -1;
-          }else if(a.types.type.name < b.types.type.name){
+          }else if(a.types.length < b.types.length){
             return 1;
           }
+          
           return 0;
         })
       }
@@ -110,9 +132,9 @@ function App() {
         })
 
         const singlePokemonBuff: PokemonBuff = response.data;
-        const singleType: SingleType = (singlePokemonBuff.types.length > 0) ? singlePokemonBuff.types[0] : {type: {name: "No Type"}};
-      
-        array.push({name: singlePokemonBuff.name, height: singlePokemonBuff.height, weight: singlePokemonBuff.weight,types: singleType, sprites: singlePokemonBuff.sprites});
+        const types: Array<string> = singlePokemonBuff.types.map(m=>m.type.name);
+
+        array.push({name: singlePokemonBuff.name, height: singlePokemonBuff.height, weight: singlePokemonBuff.weight,types: types, sprites: singlePokemonBuff.sprites});
       }
       setPokemons(array);
     }).finally(()=>{
@@ -134,6 +156,11 @@ function App() {
                 <FaSun className="icon left"/>
               </label>
             </div>
+            {
+            isLoading&& <div className="spinner">
+              <TailSpin color="blue"/>
+              </div>
+            }
             <div className="container">
               <PokemonList pokemons={pokemons} onClickMore={getMore} sort={sort}/>
             </div>

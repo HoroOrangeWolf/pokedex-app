@@ -284,3 +284,9 @@ input:checked+.slider:before {
   margin-left: 3.2px;
   bottom: 0;
 }
+
+.spinner{
+  top: 45%;
+  position: fixed;
+  z-index: 1;
+}

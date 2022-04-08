@@ -5,13 +5,6 @@ export interface Sprites {
     front_default: string
 }
 
-export interface TypeData {
-    name: string
-}
-export interface SingleType{
-    type: TypeData
-}
-
 export interface ButtonSortEvent{
     sortBy: string,
     isASC: boolean
@@ -19,7 +12,7 @@ export interface ButtonSortEvent{
 
 export interface Pokemon{
   name: string,
-  types: SingleType,
+  types: Array<string>,
   height: number,
   weight: number,
   sprites: Sprites,
@@ -27,7 +20,7 @@ export interface Pokemon{
 
 export interface PokemonBuff{
   name: string,
-  types: Array<SingleType>,
+  types: Array<any>,
   height: number,
   weight: number,
   sprites: Sprites,
