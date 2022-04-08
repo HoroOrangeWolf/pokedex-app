@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { Pokemon, ButtonSortEvent } from "../interfaces"
-import '../index.css'
 import PokemonItem from "../PokemonItem"
 import ButtonSort from "../ButtonSort"
 

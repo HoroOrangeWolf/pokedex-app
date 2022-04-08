@@ -1,3 +1,30 @@
+.lightTheme{
+  --main-bg-color: rgba(0, 117, 190, 0.7);
+  --card-bg-color: rgb(238, 131, 40);
+  --card-hidden-bg-color: rgb(255, 222, 0);
+  --btn-border-color: rgb(255, 222, 0);
+  --switch-bg: white;
+  --icon-img-bg: white;
+  --icon-img-outline: rgb(238, 131, 40);
+  --icon-color: rgba(0, 117, 190, 1);
+  --slider-color: rgba(0, 117, 190, 1);
+}
+
+.darkTheme{
+  --main-bg-color: rgba(0, 0, 0, 0.9);
+  --card-bg-color: rgba(110, 110, 110, 1.0);
+  --card-hidden-bg-color: rgba(140, 140, 140, 1.0);
+  --btn-border-color: rgb(80, 80, 80);
+  --icon-color: black;
+  --icon-img-bg: rgba(140, 140, 140, 1.0);
+  --icon-img-outline: rgba(50, 50, 50, 0.4);
+  --slider-color: black;
+  --switch-bg: #ccc;;
+}
+.loading{
+  opacity: 0.7;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,7 +32,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(0, 117,190);
 }
 
 code {
@@ -28,6 +54,7 @@ code {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  background-color: var(--main-bg-color);
 }
 
 .container{
@@ -40,7 +67,7 @@ code {
   width: 100%;
   border-radius: 11px;
   overflow: hidden;
-  background-color: rgb(10, 40, 95);
+ 
   padding: 20px;
   font-size: 1.2rem;
   text-shadow: -0.3px -0.3px 0 rgba(255, 255, 255, 0.7),
@@ -50,7 +77,7 @@ code {
 }
 
 .img{
-  background-color: orange;
+  background-color: var(--icon-img-outline);
   width: 78px;
   height: 78px;
   border-radius: 9999px;
@@ -60,7 +87,7 @@ code {
 }
 
 .insideImg{
-  background-color: white;
+  background-color: var(--icon-img-bg);
   border-radius: 9999px;
   width: 75px;
   height: 75px;
@@ -69,7 +96,7 @@ code {
 .card {
   width: 100%;
   border-bottom: 1px solid rgba(128, 128, 128, 0.5);
-  background-color: rgb(179, 161, 37);
+  background-color: var(--card-bg-color);
 
   text-shadow: -0.3px -0.3px 0 rgba(255, 255, 255, 0.7),
   0.3px -0.5px 0 rgba(255, 255, 255, 0.7),
@@ -79,6 +106,11 @@ code {
   margin-top: 5px;
   border-radius: 20px;
   overflow: hidden;
+  transition: ease-in-out 500ms;
+}
+
+.card:hover{
+  opacity: 0.9;
 }
 
 .visible{
@@ -103,8 +135,7 @@ code {
   width: 100%;
   font-size: 1.2rem;
   font-weight: 900;
-  background-color: rgb(255, 222, 0);
-  
+  background-color: var(--card-hidden-bg-color);
 }
 
 .hidden > div {
@@ -124,8 +155,8 @@ code {
 .listFooter > button {
   padding: 10px;
   border-radius: 9999px;
-  background-color: rgb(179, 161, 37);
-  border: 2px solid rgb(255, 222, 0);
+  background-color: var(--card-bg-color);
+  border: 2px solid var(--btn-border-color);
   transition: ease-in-out 200ms;
   font-size: 1.2rem;
   font-weight: bold;
@@ -133,7 +164,6 @@ code {
 
 .listFooter > button:hover{
   padding: 15px;
-  background-color: rgba(179, 161, 37, 0.95);
 }
 
 .listHeader{
@@ -144,9 +174,11 @@ code {
 }
 
 .header{
-  background-color: rgb(255, 0, 0);
   width: 100%;
   min-height: 70px;
+  padding: 20px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .sortButtons{
@@ -159,8 +191,8 @@ code {
 
 .singleButton{
   padding: 10px 40px;
-  background-color: rgb(179, 161, 37);
-  border: 2px solid rgb(255, 222, 0);
+  background-color: var(--card-bg-color);
+  border: 2px solid var(--btn-border-color);
   transition: ease-in-out 200ms;
   border-radius: 9999px;
   font-size: 1rem;
@@ -177,4 +209,78 @@ code {
 
 .singleButton:hover{
   padding: 11px 42px;
+}
+
+.pokemonType{
+  font-weight: bold;
+  font-size: 20px;
+}
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  background-color: var(--switch-bg);
+  border-radius: 9999px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transition: .4s;
+  transition: .4s;
+  z-index: 2;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: var(--slider-color);
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked+.slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 9999px;
+}
+
+.icon{
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin-right: 3.2px;
+  width: 26px;
+  height: 34px;
+  z-index: 1;
+  color: var(--icon-color);
+}
+
+.left {
+  top: 0;
+  left: 0;
+  margin-left: 3.2px;
+  bottom: 0;
 }

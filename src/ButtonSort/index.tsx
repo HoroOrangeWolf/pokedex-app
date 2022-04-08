@@ -1,6 +1,5 @@
 
 import React, { useEffect, useState } from "react";
-import '../index.css'
 
 import { FaEquals } from 'react-icons/fa';
 import { IoIosArrowUp, IoIosArrowDown } from 'react-icons/io';

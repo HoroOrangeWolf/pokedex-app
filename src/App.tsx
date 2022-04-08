@@ -1,14 +1,25 @@
 import React, { useEffect, useState } from 'react';
-import './App.css';
 import axios from 'axios'
 import { Pokemon, PokemonProp, Config, ButtonSortEvent, PokemonBuff, SingleType } from './interfaces';
+import { MdNightlight } from 'react-icons/md';
 import PokemonList from './PokemonList';
-
+import {FaSun} from 'react-icons/fa'
 
 function App() {
 
   const [state, setState] = useState<Config>({offset: 0, limit: 20});
+  const [isDarkMode, setDarkMode] = useState<boolean>(false);
   const [pokemons, setPokemons] = useState<Array<Pokemon>>([]);
+
+  function setLoading(loading: boolean){
+    const doc = document.getElementById('wrap');
+    if(doc!=null && loading){
+      doc.className="wrapper loading";
+    }else if(doc!=null){
+      doc.className="wrapper";
+    }
+    
+  }
 
   function getMore():void{
     const conf: Config = state;
@@ -16,9 +27,19 @@ function App() {
     setState(newConfig);
   }
 
+  function changeTheme():void{
+    if(!isDarkMode){
+      document.body.className='darkTheme';
+    }else{
+      document.body.className='lightTheme';
+    }
+    setDarkMode(!isDarkMode);
+  }
+
+
+
   function sort(data:ButtonSortEvent){
     let sortedPokemons: Array<Pokemon> = [];
-    console.log(data);
     if(data.sortBy === 'type'){
       if(data.isASC){
         sortedPokemons = pokemons.sort((a,b):number=>{
@@ -68,6 +89,8 @@ function App() {
   }
 
   useEffect(()=>{
+    
+    setLoading(true);
     axios({
       method: 'get',
       url: `https://pokeapi.co/api/v2/pokemon?limit=${state.limit}&offset=${state.offset}`
@@ -92,17 +115,30 @@ function App() {
         array.push({name: singlePokemonBuff.name, height: singlePokemonBuff.height, weight: singlePokemonBuff.weight,types: singleType, sprites: singlePokemonBuff.sprites});
       }
       setPokemons(array);
-    })
+    }).finally(()=>{
+      setLoading(false);
+    });
+
   }, [state]);
 
+  
+
   return (
-    <div className="App">
-      <div className="wrapper">
-        <div className="container">
-          <PokemonList pokemons={pokemons} onClickMore={getMore} sort={sort}/>
-        </div>
+      <div className="App">
+          <div className="wrapper" id="wrap">
+            <div className="header">
+              <label className="switch">
+                <input type="checkbox" onClick={changeTheme}/>
+                <span className="slider round"></span>
+                <MdNightlight className="icon"/>
+                <FaSun className="icon left"/>
+              </label>
+            </div>
+            <div className="container">
+              <PokemonList pokemons={pokemons} onClickMore={getMore} sort={sort}/>
+            </div>
+          </div>
       </div>
-    </div>
   );
 }
 

@@ -1,5 +1,4 @@
 import { Pokemon } from "../interfaces";
-import '../index.css'
 import useCollapse from 'react-collapsed';
 
 type CardProps = {
@@ -31,7 +30,7 @@ export default function PokemonItem({pokemon}:CardProps){
                             <img width="75" height="75" src={pokemon.sprites.front_default} alt=""/>
                         </div>
                     </div>
-                    <div>
+                    <div className="pokemonType">
                         {`Type: ${firstLetterToUpperCase(pokemon.types.type.name)}`}
                     </div>
                 </div>
