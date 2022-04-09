@@ -4,7 +4,7 @@ import { Pokemon, PokemonProp, Config, ButtonSortEvent, PokemonBuff } from './in
 import { MdNightlight } from 'react-icons/md';
 import PokemonList from './PokemonList';
 import {FaSun} from 'react-icons/fa';
-import { TailSpin } from "react-loader-spinner";
+import ClipLoader from "react-spinners/ClipLoader";
 
 function App() {
 
@@ -158,7 +158,7 @@ function App() {
             </div>
             {
             isLoading&& <div className="spinner">
-              <TailSpin color="blue"/>
+              <ClipLoader color="blue" size="150"/>
               </div>
             }
             <div className="container">
